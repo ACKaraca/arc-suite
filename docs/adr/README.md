@@ -24,6 +24,8 @@ than restating these.
 | [0014](0014-assistance-is-optional-and-provider-neutral.md) | Assistance is optional and provider neutral | Accepted |
 | [0015](0015-robustness.md) | Robustness | Accepted |
 | [0016](0016-localization-and-accessibility.md) | Localization and accessibility | Accepted |
+| [0017](0017-exchange-connectors-and-licensed-bridges.md) | Exchange connectors and licensed bridges | Accepted; amends 0009 |
+| [0018](0018-web-and-mobile-targets.md) | Web and mobile targets from the same Rust code | Accepted; clarifies 0002 |
 
 ## Rules
 

@@ -161,15 +161,23 @@ contract; MeshBuilder depends on `arc-mesh` and `arc-io-usd`.
 | Repository | Work |
 |---|---|
 | `arc-hub`, `arc-core`, authoring products | Element borrowing and change sets (collaboration stage 2) |
-| `solidbuilder` | Manufacturing preparation and simulation |
-| `meshbuilder` | Sculpting and effects |
+| `solidbuilder` | Manufacturing preparation and simulation; electronics design workspace; native finite-element, meshing, slicing and multi-axis toolpath kernels that replace the wrapped external engines once they pass the same validation suites |
+| `meshbuilder` | Sculpting and effects; third-party renderers through out-of-process Hydra render delegates |
 | `civilbuilder` | Networks, rail and hydraulics |
-| `arc-review` | XR review |
-| `renderbuilder` | GPU path tracing |
+| `arc-review` | XR review; mobile build; export from authoring applications through connectors and switch-back |
+| `renderbuilder` | GPU path tracing; Hydra render delegate and host integrations for other content-creation applications |
+| `draftbuilder` | Browser and mobile builds; open readers for DGN V7 and 3DM; embedded objects and the automation bridge on Windows; video output of camera animations through RenderBuilder |
+| `archbuilder` | Concept massing on tablets and in the browser |
+| `arc-hub` | Native mobile clients with offline field use; browser authoring through product browser builds; pipeline integrations built on the connectors |
+| `arc-connectors` | Connectors for native project files of BIM, mechanical CAD, civil and content-creation applications |
+| `arc-core` | Arc exchange package and its conformance suite; browser and mobile support in `arc-ui` and `arc-app` |
 | All products | Assistant workflows |
 
 **Dependencies.** Phase 4 exit; stage 2 collaboration depends on the operation journal and the Hub
-API change-set endpoints; GPU path tracing depends on the CPU reference integrator for parity tests.
+API change-set endpoints; GPU path tracing depends on the CPU reference integrator for parity tests;
+connectors depend on the Arc exchange package; browser and mobile builds depend on touch and
+small-screen support in `arc-ui`; a native engine replaces a wrapped one only after passing the
+validation suite the wrapped engine passes.
 
 **Exit criteria.**
 
@@ -184,3 +192,10 @@ API change-set endpoints; GPU path tracing depends on the CPU reference integrat
   Arc Hub.
 - A user asks the assistant to perform a multi-step modeling task, reviews the previewed commands and
   applies them as one undoable transaction, with no document content sent until confirmed.
+- A model authored in another BIM application is transferred to ArchBuilder through a connector,
+  edited, and transferred back; identifiers are kept in both directions and each transfer produces a
+  loss report.
+- A user opens a drawing from Arc Hub on a tablet without a connection, measures and marks it up,
+  and the markups appear in DraftBuilder on a workstation after synchronization.
+- An engineer captures a schematic in SolidBuilder, lays out and routes the board, passes design-rule
+  checking and writes manufacturing outputs.

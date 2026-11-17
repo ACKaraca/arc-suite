@@ -15,7 +15,9 @@ Apache License 2.0, built on one shared Rust foundation. It covers the design pr
 authoring, drafting, engineering, visualization, review and data management. The products share one
 document architecture, one command model, one viewport, one user-interface kit and one set of
 interchange libraries, so a capability built once is available to every product, and a user who
-learns one product finds the others familiar.
+learns one product finds the others familiar. The same code reaches the browser, tablets and
+phones, and connectors carry data in both directions between Arc and the other applications a team
+already uses.
 
 ## Who it serves
 
@@ -38,9 +40,14 @@ learns one product finds the others familiar.
 
 **1. Native Rust end to end.** Every desktop application is a native program written in Rust, with
 no web view shell and no JavaScript or TypeScript. One language across the foundation and products
-means one toolchain, one set of safety guarantees and code that moves freely between crates. Arc
-Hub's browser client is the single documented exception, because a web browser is its delivery
-platform; it reuses the Rust viewer compiled to WebAssembly.
+means one toolchain, one set of safety guarantees and code that moves freely between crates. The
+same Rust crates and UI kit also build for the browser, through WebAssembly, and for tablets and
+phones; these are targets of the same code, not separate applications
+([ADR-0018](adr/0018-web-and-mobile-targets.md)). Arc Hub's server-rendered browser client is the
+single documented exception to the no-JavaScript rule, because a web browser is its delivery
+platform; it reuses the Rust viewer compiled to WebAssembly. Connectors that run inside other
+applications are written in the language their host requires, because they are not Arc
+applications ([ADR-0017](adr/0017-exchange-connectors-and-licensed-bridges.md)).
 
 **2. One foundation, many products.** Geometry, document storage, commands, rendering, the UI kit
 and interchange live once, in `arc-core`. A product repository contains only its domain. A defect in
@@ -91,13 +98,13 @@ simplicity today does not become a trap tomorrow.
 | Non-goal | Reason |
 |---|---|
 | Require an account, subscription, activation or license server | Conflicts with principle 5 |
-| Ship desktop applications built on web technology | Conflicts with principle 1 |
-| Read or write proprietary formats that have no published specification by reverse engineering | Legal and technical risk; such data is exchanged through open formats ([interoperability](architecture/interoperability.md)) |
+| Ship desktop applications built on web technology | Conflicts with principle 1; browser and mobile builds compile the same Rust code instead ([ADR-0018](adr/0018-web-and-mobile-targets.md)) |
+| Reverse engineer undocumented formats or binaries, run compiled or protected script files of other applications, or ship codecs whose license forbids open distribution | Legal reason; proprietary data is exchanged through connectors inside the user's licensed application, licensed bridges, open readers and open formats instead ([ADR-0017](adr/0017-exchange-connectors-and-licensed-bridges.md)) |
 | Collect telemetry by default | Crash reports and usage data are opt-in only |
 | Make any feature depend on a hosted AI service | Assistance is optional and provider neutral ([ADR-0014](adr/0014-assistance-is-optional-and-provider-neutral.md)) |
 | Operate a hosted service or metered cloud inside the open-source repositories | Arc Hub is self-hostable; hosting is outside the project's repositories |
 | Load native-code plug-ins | Plug-ins are sandboxed WebAssembly ([ADR-0012](adr/0012-extensibility.md)) |
-| Build, in the first two years, a B-rep kernel from scratch, a GUI toolkit, a GPU abstraction, a CRDT engine, a finite-element solver or mesher, a slicer, 5-axis machining kernels, a DWG or IFC parser from scratch, an installer or updater, or a scripting language | Proven components exist; effort goes to product behavior ([technology baseline](https://github.com/ACKaraca/arc-core/blob/main/docs/architecture/technology-baseline.md)) |
+| Build, in the first two years, a B-rep kernel from scratch, a GUI toolkit, a GPU abstraction, a CRDT engine, a DWG or IFC parser from scratch, an installer or updater, or a scripting language | Deferred, not excluded: proven components exist and effort goes to product behavior first ([technology baseline](https://github.com/ACKaraca/arc-core/blob/main/docs/architecture/technology-baseline.md)). Native finite-element, meshing, slicing and multi-axis toolpath kernels replace wrapped external engines once they pass the same validation suites ([roadmap](roadmap.md#phase-5-depth-and-scale)) |
 
 ## Success criteria
 

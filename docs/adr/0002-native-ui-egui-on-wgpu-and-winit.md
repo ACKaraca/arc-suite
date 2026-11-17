@@ -5,6 +5,8 @@ Arc-specific widgets live in `arc-ui`.
 
 - **Status:** Accepted
 - **Scope:** Suite
+- **Amended by:** [ADR-0018](0018-web-and-mobile-targets.md), which clarifies that the same UI kit
+  also serves browser and mobile builds of a product
 
 ## Context
 

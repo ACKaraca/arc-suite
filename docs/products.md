@@ -13,7 +13,8 @@ File extensions are provisional until the first format freeze of each product.
   families, types and instances; levels, grids and reference planes; rooms, spaces and zones; phases
   and design options; views, sheets and schedules derived from one model; structural and
   building-services disciplines; concept massing with early analysis; steel detailing with
-  fabrication outputs.
+  fabrication outputs; a connector for native project files and families of other BIM
+  applications; concept massing on tablets and in the browser.
 - **Primary users:** architects, structural engineers, building-services engineers, steel
   detailers, BIM coordinators.
 - **Native document:** `.archb` (Arc document package).
@@ -25,7 +26,10 @@ File extensions are provisional until the first format freeze of each product.
   database: model space and layouts, symbol tables, blocks, external references, annotation,
   constraints, tables, plotting, sheet sets, 3D solids and meshes, and a keyboard-first command
   line. Optional toolsets add discipline objects for architecture, mechanical, building services,
-  electrical controls, plant, mapping and raster work.
+  electrical controls, plant, mapping and raster work. Open readers for DGN V7 and 3DM; embedded
+  objects through operating-system object linking and an automation bridge on Windows; video output
+  of camera animations through RenderBuilder; browser and mobile builds for viewing, measuring,
+  markup and editing.
 - **Primary users:** drafters and CAD technicians in every discipline, engineers producing details.
 - **Native document:** `.dwg` and `.dxf` saved directly; `.draftb` package for sidecar data (toolset
   object data, history, review state) that the drawing database cannot hold.
@@ -36,7 +40,8 @@ File extensions are provisional until the first format freeze of each product.
 - **Scope:** civil infrastructure design: survey data, terrain surfaces, alignments and profiles,
   assemblies and corridors, intersections, sections and quantities, earthworks, grading, parcels,
   gravity and pressure networks with hydraulic analysis, rail, bridges, plan production, concept
-  infrastructure in a geospatial context, and vehicle swept-path analysis.
+  infrastructure in a geospatial context, vehicle swept-path analysis, and a connector for the
+  design objects of native civil drawings of other applications.
 - **Primary users:** civil engineers, surveyors, transportation and drainage designers.
 - **Native document:** `.civilb` (Arc document package).
 - **Repository:** [civilbuilder](https://github.com/ACKaraca/civilbuilder)
@@ -47,7 +52,10 @@ File extensions are provisional until the first format freeze of each product.
   parts, surfacing, freeform subdivision modeling, sheet metal, weldments, routed systems, standard
   parts library, assemblies with joints and motion, configurations, bills of materials, associative
   drawings with tolerancing, rule-based automation, manufacturing preparation, simulation through
-  open solvers, topology optimization and electronics co-design exchange.
+  open solvers, topology optimization, and an electronics design workspace (schematic capture, PCB
+  layout, design-rule checking, routing, circuit simulation and manufacturing outputs) alongside
+  exchange with open electronics design tools; connectors for native mechanical CAD files, with
+  feature trees where the host API exposes them.
 - **Primary users:** mechanical engineers, product designers, manufacturing engineers.
 - **Native document:** `.solidb` (Arc document package).
 - **Repository:** [solidbuilder](https://github.com/ACKaraca/solidbuilder)
@@ -57,7 +65,9 @@ File extensions are provisional until the first format freeze of each product.
 - **Scope:** digital content creation: scene graph, polygon and subdivision modeling with a
   non-destructive modifier stack and node graph, curves, sculpting, retopology, UV editing, texture
   painting and baking, look development, rigging, animation, motion-capture editing, simulation and
-  motion graphics, and OpenUSD scene assembly.
+  motion graphics, and OpenUSD scene assembly; connectors for native scene files and pipeline
+  integrations inside other content tools; third-party renderers through out-of-process Hydra render
+  delegates.
 - **Primary users:** 3D artists, animators, riggers, technical directors, visualization artists.
 - **Native document:** `.meshb` (Arc document package).
 - **Repository:** [meshbuilder](https://github.com/ACKaraca/meshbuilder)
@@ -67,7 +77,8 @@ File extensions are provisional until the first format freeze of each product.
 - **Scope:** physically based production rendering: path tracing, OpenPBR materials, lights,
   cameras, AOVs, denoising, color management, an interactive render view, a command-line renderer
   and render-farm worker, and a node-based material editor. It renders for every other product
-  through the Arc Scene contract.
+  through the Arc Scene contract, and inside other content-creation applications through a Hydra
+  render delegate and host integrations.
 - **Primary users:** look-development and lighting artists, visualization artists, and every Arc
   user who needs photoreal output.
 - **Native document:** `.renderb` (Arc document package holding render settings, look files and
@@ -79,8 +90,9 @@ File extensions are provisional until the first format freeze of each product.
 - **Scope:** model and drawing aggregation and review: federation of models from many formats,
   property inspection, search and selection sets, sectioning, viewpoints, measurement, markup, clash
   detection, rule-based model checking, 4D sequencing, 5D cost, quantity takeoff, model and drawing
-  comparison, batch conversion, a free read-only mode, a browser viewer and immersive multi-user XR
-  review.
+  comparison, batch conversion, a free read-only mode, a browser viewer, a mobile build, immersive
+  multi-user XR review, and export from authoring applications through connectors with switch-back
+  to them.
 - **Primary users:** BIM coordinators, construction managers, cost estimators, clients and anyone who
   reviews without authoring.
 - **Native document:** `.arcrev` (Arc document package holding a federation: references to source
@@ -93,7 +105,9 @@ File extensions are provisional until the first format freeze of each product.
   lifecycle states, reviews, approvals, transmittals and issues; design collaboration packages and
   multi-user editing sessions; product data with items, revisions, bills of materials and change
   orders; production tracking; a platform API, webhooks and automation jobs that run headless Arc
-  applications.
+  applications; pipeline integrations inside other applications built on the connectors; native
+  mobile clients for documents, issues and markups with offline field use; browser authoring that
+  opens the browser build of the owning product.
 - **Primary users:** project, document and data managers, production coordinators, every team
   member who shares work.
 - **Native document:** none; Hub stores Arc documents and other files and holds its own database.
@@ -103,6 +117,13 @@ File extensions are provisional until the first format freeze of each product.
 
 `arc-core` is not a product. It provides the shared crates every product builds on; see
 [architecture overview](architecture/overview.md#arc-core-layers).
+
+### Connectors
+
+`arc-connectors` is not a product either. It holds the connectors: add-ins that run inside the
+user's licensed copy of another application, use only that application's official public API, and
+read or write the Arc exchange package. The repository is created with the first connector
+([ADR-0017](adr/0017-exchange-connectors-and-licensed-bridges.md)).
 
 ## Boundaries and hand-offs
 
@@ -145,6 +166,7 @@ flowchart LR
 | Engineering model to content | ArchBuilder, SolidBuilder | MeshBuilder | Live reference through the document package, or OpenUSD export | Authoring product; MeshBuilder owns only its overrides |
 | Released data to product management | SolidBuilder | Arc Hub | Check-in of parts, assemblies, drawings and bill of materials | Arc Hub item and revision record |
 | Headless jobs | Arc Hub | Any product's CLI | Automation protocol; job definitions | Hub job record; output document versions |
+| Exchange with other applications | A connector inside another application, or an Arc product | An Arc product, or the other application | Arc exchange package ([ADR-0017](adr/0017-exchange-connectors-and-licensed-bridges.md)) | The application in which the data is authored; source identifiers are mapped in both directions |
 
 ## Responsibility matrix
 
@@ -163,3 +185,5 @@ checks or uses without authoring).
 | Data management (versions, approvals, revisions, items) | Arc Hub | Every product through the Hub API | — |
 | Clash detection and model checking | Arc Review | Authoring products run their own validation rules before publishing | Arc Hub (automatic clash runs and issues) |
 | Interchange format reading and writing | `arc-io-*` crates in `arc-core` (neutral format model) | Each product maps formats into its domain model | — |
+| Exchange with other applications | Arc exchange package in `arc-core`; connectors in `arc-connectors` | Each product maps the package into its domain model; Arc Hub builds pipeline integrations on the connectors | — |
+| Browser and mobile builds | The product that owns the document | `arc-ui` and `arc-app` for touch, small screens and platform integration | Arc Hub opens browser builds for browser authoring |

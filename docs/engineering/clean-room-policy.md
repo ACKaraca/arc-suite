@@ -24,6 +24,7 @@ written, and its origin must be demonstrable from the project's own records.
 | Original reasoning | Domain knowledge, textbooks, academic papers, engineering practice |
 | Contributor-owned sample files | Files the contributor created and owns, admitted under the [corpus rules](#corpus-admission) |
 | Libraries on the dependency allowlist | Used through their public APIs under their licenses |
+| Official public API reference of another application | Used by connectors, which call only that API inside the user's own licensed copy of the application; read to learn the API, never copied |
 
 ## Prohibited inputs
 
@@ -35,6 +36,8 @@ written, and its origin must be demonstrable from the project's own records.
 | Copied documentation text, help pages, dialog text, option wording, menu structures and default-value lists | Copyright in expression |
 | Icons, fonts, hatch patterns, line types, symbols, templates, materials, textures and other content files of other products | Copyright and license terms of those files |
 | Vendor sample files and files extracted from installed products | License terms; ownership unclear |
+| Vendor SDK source code, sample code, wizards and templates, including those shipped with a public API | License terms; connectors are written from the API reference only, and no SDK code or sample is copied into an Arc repository |
+| Compiled or protected script files of other applications, and undocumented internal APIs | Running or calling them is a form of reverse engineering |
 | Material under licenses incompatible with the [dependency policy](dependency-policy.md) | Cannot be distributed under Apache-2.0 |
 | Any earlier implementation known to be unclean | Taints whatever is derived from it |
 

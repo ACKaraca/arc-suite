@@ -33,7 +33,7 @@ The boundaries between products are defined in [docs/products.md](docs/products.
 
 ## Principles
 
-1. **Native Rust end to end.** No web view shell and no JavaScript or TypeScript in desktop applications.
+1. **Native Rust end to end.** No web view shell and no JavaScript or TypeScript in desktop applications; browser and mobile builds compile the same Rust code.
 2. **One foundation, many products.** Geometry, storage, commands, rendering, UI kit and interchange live once in `arc-core`.
 3. **The document is the authority.** Views, sheets, schedules, scenes and exports are derived from one semantic model.
 4. **Everything is a command.** Every change is a typed, validated, undoable command, whoever issues it.
@@ -111,7 +111,7 @@ exposes the Arc Automation Protocol to scripts and tools. See
 | 2 | Building design and collaboration | ArchBuilder architectural core; Arc Hub documents module with web viewer; DWG write |
 | 3 | Engineering breadth | SolidBuilder; CivilBuilder; clash detection, 4D and takeoff; Hub product data |
 | 4 | Visualization and content | RenderBuilder; MeshBuilder; ArchBuilder structure and building services; DraftBuilder toolsets; Hub production tracking |
-| 5 | Depth and scale | Element-level multi-user editing; manufacturing and simulation; XR review; GPU path tracing; assistant workflows |
+| 5 | Depth and scale | Element-level multi-user editing; manufacturing and simulation; XR review; GPU path tracing; assistant workflows; exchange connectors; browser and mobile builds; electronics design |
 
 Phases end on exit criteria, not dates. See [docs/roadmap.md](docs/roadmap.md).
 

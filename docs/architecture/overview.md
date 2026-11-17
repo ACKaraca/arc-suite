@@ -19,12 +19,17 @@ flowchart TB
     HUB -->|jobs| CLI[Headless Arc CLI workers]
     APP <-->|open formats| FILES[(IFC, DWG/DXF, STEP, glTF, OpenUSD, LandXML, PDF files)]
     APP <-->|document package| DOCS[(Arc documents)]
+    APP <-->|Arc exchange package| CONN[Connector inside another application]
+    WEB[Browser or mobile build of a product] <-->|Hub API, optional| HUB
 ```
 
 An Arc desktop application is complete on its own: it reads and writes documents and interchange
 files on the local file system. Connecting to Arc Hub adds sharing, versions, reviews and multi-user
 editing. RenderBuilder runs as a separate process whenever a product requests photoreal output.
-Scripts, pipelines and assistants drive applications through the automation protocol.
+Scripts, pipelines and assistants drive applications through the automation protocol. Connectors
+running inside other applications exchange data with Arc through the Arc exchange package. Browser
+and mobile builds of a product run the same crates as its desktop application
+([targets](#build-targets)).
 
 ## Repository topology
 
@@ -36,6 +41,7 @@ The suite is a polyrepo ([ADR-0001](../adr/0001-polyrepo-with-one-foundation-and
 | Foundation | `arc-core`: every shared crate, released as a whole under one version tag |
 | Products | `archbuilder`, `draftbuilder`, `civilbuilder`, `solidbuilder`, `meshbuilder`, `renderbuilder`, `arc-review`, `arc-hub` |
 | Corpora | `arc-corpus-<domain>` repositories of interchange test files, created when the first importer of the domain lands |
+| Connectors | `arc-connectors`: add-ins that run inside other applications and read or write the Arc exchange package, created with the first connector ([ADR-0017](../adr/0017-exchange-connectors-and-licensed-bridges.md)) |
 
 ### Dependency rule
 
@@ -60,6 +66,11 @@ flowchart BT
   ([contracts](contracts.md)).
 - `arc-core` never depends on a product.
 - Corpora are never Cargo dependencies; tests locate them by path and pinned commit.
+- `arc-connectors` depends on no Arc repository at compile time and no Arc repository depends on it;
+  the two sides meet only at the Arc exchange package and its conformance suite. Each connector is
+  written in the language its host application requires and is exempt from the rule that Arc
+  desktop applications are written in Rust, because it is not an Arc application. It uses only the
+  host's official public API.
 
 ### Suite baseline
 
@@ -137,6 +148,24 @@ The layer rule extends into products: `-model`, `-commands` and `-io` are headle
 on `-ui`, windowing or GPU crates; `apps/<product>` wires the crates together and contains no domain
 logic. A product adds a crate only for a real second boundary, such as a solver or a toolset. Arc Hub
 follows the same rule with a server binary in place of the desktop application.
+
+## Build targets
+
+A product's crates build for more than the desktop
+([ADR-0018](../adr/0018-web-and-mobile-targets.md)):
+
+| Target | Built from | Notes |
+|---|---|---|
+| Desktop application | `apps/<product>` | Windows, macOS and Linux; the complete product |
+| Headless CLI | `apps/<product>-cli` | Local use and Hub jobs |
+| Browser build | The same crates compiled to WebAssembly, with `arc-ui` drawing into a browser canvas | The page holds only the minimal loader the browser requires; no product logic or UI in JavaScript or TypeScript |
+| Tablet and phone builds | The same crates built for iOS and Android | Platform integration lives in `arc-app` |
+
+A browser or mobile build is wiring only, like the desktop application: an extra folder under
+`apps/` that selects the commands and panels the product offers on that target. It uses the same
+document model, commands, formats and Hub API. Layers L0 to L4 and each product's headless crates
+keep building for WebAssembly and mobile targets, which CI checks for every product that declares
+such a target.
 
 ## Run-time picture of a workstation
 

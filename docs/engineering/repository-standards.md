@@ -10,8 +10,26 @@ How every Arc repository is laid out, named, protected, versioned and organized.
 | Foundation | `arc-core` | `arc-core` |
 | Product | Product name in lower case, no separators, or `arc-` plus a word for products named "Arc ..." | `archbuilder`, `draftbuilder`, `arc-review`, `arc-hub` |
 | Corpus | `arc-corpus-<domain>` | `arc-corpus-dxf`, `arc-corpus-ifc` |
+| Connectors | `arc-connectors` | `arc-connectors` |
 
 A new repository is created only after an RFC and by a suite maintainer.
+
+### The connectors repository
+
+`arc-connectors` holds the add-ins that run inside other applications
+([ADR-0017](../adr/0017-exchange-connectors-and-licensed-bridges.md)). It differs from the other
+repositories in these points; everything else in this standard applies:
+
+- Each connector lives in its own folder, is written in the language its host application requires,
+  and is exempt from the Rust-only rule for desktop applications. Its build and lint commands are
+  stated in the repository's `AGENTS.md`.
+- A connector uses only the host application's official public API, inside the user's own licensed
+  copy. No vendor SDK code, sample code, templates or sample files are copied into any Arc
+  repository; SDK headers or assemblies needed to build are obtained by the builder from the vendor
+  and are never committed ([clean-room policy](clean-room-policy.md)).
+- A connector contains no Arc product logic: it maps between the host's objects and the Arc exchange
+  package and passes the package's conformance suite.
+- Each connector states the host application versions it supports and is tested against them.
 
 ## Layout
 
