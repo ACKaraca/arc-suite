@@ -6,6 +6,8 @@ specifications and permissively licensed libraries.
 
 - **Status:** Accepted
 - **Scope:** Suite
+- **Amended by:** [ADR-0017](0017-exchange-connectors-and-licensed-bridges.md), which adds
+  connectors, licensed bridges and open readers as exchange routes for proprietary formats
 
 ## Context
 

@@ -7,15 +7,18 @@ Suite vocabulary used across Arc repositories. Product-specific terms are in eac
 | ADR | Architecture decision record: a numbered document recording one decision, its context, consequences, alternatives and reopen trigger |
 | Arc Automation Protocol | JSON-RPC 2.0 protocol over stdio or a local socket through which scripts, tools and assistants run commands in an Arc application |
 | Arc document package | The single-file SQLite format of every native Arc document |
+| Arc exchange package | The open, documented container through which connectors and Arc products exchange data with other applications in both directions |
 | Arc Scene | The renderer-neutral scene description and session protocol through which products obtain photoreal rendering from RenderBuilder |
 | `arc-core` | The foundation repository holding all shared crates |
 | Assistant panel | Optional panel through which a user-configured AI provider proposes commands for preview and explicit apply |
 | B-rep | Boundary representation: exact solids and surfaces described by faces, edges and vertices |
 | Borrowing | Obtaining from Arc Hub the exclusive right to modify specific elements during multi-user editing |
+| Browser build | A product's Rust crates and UI kit compiled to WebAssembly and run in a web browser |
 | Capability | A specified, testable product behavior with a permanent identifier, tier and phase |
 | Change set | The element-level operations of one committed transaction, exchanged through Arc Hub |
 | Check-out | An exclusive edit lock on a whole document version in Arc Hub |
 | Command | A typed, validated, undoable operation with a stable identifier; the only way a document changes |
+| Connector | An add-in in `arc-connectors` that runs inside the user's licensed copy of another application, uses only its official public API, and reads or writes the Arc exchange package |
 | Conformance suite | Tests published by a contract owner that every producer and consumer of the contract must pass |
 | Corpus | A repository of interchange test files with a ledger of ownership, license and checksum |
 | DCO | Developer Certificate of Origin; certified by a `Signed-off-by` trailer on each commit |
@@ -30,8 +33,11 @@ Suite vocabulary used across Arc repositories. Product-specific terms are in eac
 | Golden model | A small project-owned model with independently computed expected results, used to test geometry and quantities |
 | Headless | Running without windowing, GPU or UI; applies to CLI tools, Hub workers and tests |
 | Hub API | The HTTPS and WebSocket API of Arc Hub |
+| Licensed bridge | A conversion library that the user installs and licenses, called by an Arc product as a separate process; never distributed with Arc |
 | Layer (crate) | One of the levels L0 to L6 of `arc-core`; a crate depends only on lower layers |
 | Loss report | Structured list of what an import or export dropped, approximated, converted or preserved |
+| Mobile build | A product's Rust crates and UI kit built for tablets and phones on iOS and Android |
+| Open reader | Native reading of a proprietary format through a permissively licensed open-source reader or a published specification |
 | Operation journal | The record of element-level operations of every transaction, driving undo, history, recovery and change sets |
 | Patch ledger | `PATCHES.md`: the record of every patch applied to a forked dependency, with its removal condition |
 | Persistent naming | Identification of B-rep faces and edges that survives regeneration so references remain valid |

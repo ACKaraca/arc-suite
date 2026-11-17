@@ -31,6 +31,9 @@ format directly; the product documents name the route instead.
 | OBJ, STL, PLY, 3MF | R:V W:V | R:V W:V | R:V W:V | R:V W:V | R:E W:E | R:V | R:V | R:V |
 | OpenUSD | W:V | — | W:V | W:V | R:E W:E | R:D W:D | R:V | — |
 | MaterialX | — | — | — | — | R:E W:E | R:E W:E | — | — |
+| DGN V7 | — | R:D | — | — | — | — | — | — |
+| 3DM | — | R:V | — | — | — | — | — | — |
+| FBX (open reader) | — | — | — | — | R:D | — | — | — |
 | LandXML | R:V | R:V | R:E W:E | — | — | — | R:D | — |
 | GIS vector (GeoPackage, Shapefile, FlatGeobuf) | R:V | R:D W:D | R:D W:D | — | — | — | R:V | — |
 | GIS raster (GeoTIFF) | R:V | R:V | R:D | — | — | — | R:V | — |
@@ -43,6 +46,7 @@ format directly; the product documents name the route instead.
 | Machine programs (G-code via post-processors) | — | — | — | W:D | — | — | — | — |
 | Arc Scene | W:D | W:D | W:D | W:D | W:D | R:E | W:D | — |
 | Arc document packages of other products | — | — | R:V | — | R:V | R:V | R:D | R:V |
+| Arc exchange package | R:D W:D | R:D W:D | R:D W:D | R:D W:D | R:D W:D | R:D | R:D W:D | R:V |
 
 Interchange formats are read and written by the `arc-io-*` crates in `arc-core`, which produce a
 neutral model of each format. Each product maps that model to and from its own domain model.
@@ -65,32 +69,62 @@ neutral model of each format. Each product maps that model to and from its own d
 6. **Exports are validated independently.** CI checks exported files with an independent reader:
    a schema validator, a separate open-source reader run as a separate process, or a second
    implementation. An export that only Arc can read does not count as supported.
-7. **Sources are published.** Format support is implemented only from published specifications and
-   permissively licensed libraries. A library under a restrictive or uncertain license is isolated
-   behind a byte-level bridge in its own process and is never required for a core workflow.
+7. **Sources are published.** Format support is implemented only from published specifications,
+   permissively licensed libraries and the official public APIs of other applications. A library
+   under a restrictive or uncertain license is isolated behind a byte-level bridge in its own process
+   and is never required for a core workflow.
 8. **No reverse engineering.** Proprietary formats without a published specification are exchanged
-   through open formats and are never reverse engineered ([clean-room policy](../engineering/clean-room-policy.md)).
+   through connectors, licensed bridges or open formats
+   ([ADR-0017](../adr/0017-exchange-connectors-and-licensed-bridges.md)). Reverse engineering
+   undocumented formats or binaries, running compiled or protected script files of other
+   applications, and codecs whose license forbids open distribution stay excluded because each is a
+   legal problem ([clean-room policy](../engineering/clean-room-policy.md)).
 9. **Units and coordinates are explicit.** Every import records the source units, axis convention
    and coordinate reference; conversions happen once, at the boundary
    ([ADR-0008](../adr/0008-units-precision-and-coordinates.md)).
 10. **Hostile input is assumed.** Importers bound recursion, allocation and entity counts and are
     fuzzed ([coding standards](../engineering/coding-standards.md#parsers-and-hostile-input)).
 
-## Exchange routes for formats without a published specification
+## Exchange routes for proprietary formats
+
+Proprietary formats reach Arc by four routes
+([ADR-0017](../adr/0017-exchange-connectors-and-licensed-bridges.md)). Each route produces the same
+identifier mapping, preserved foreign data and loss report as any other import or export.
+
+| Route | How it works | Fidelity |
+|---|---|---|
+| Connector | An add-in in the `arc-connectors` repository runs inside the user's own licensed copy of the other application, uses only that application's official public API, and reads or writes the Arc exchange package | Data in both directions; edit where the host API exposes parametric definitions |
+| Licensed bridge | An Arc product calls a conversion library that the user has installed and licensed, as a separate process; the library is never distributed with Arc and never required for a core workflow | As stated by the product for each bridge |
+| Open reader | A format with a permissively licensed open-source reader or a published specification (for example 3DM, FBX through an open reader, DGN V7) is read natively behind an `arc-io-*` crate | View or data, stated per product |
+| Open format | The other application exports an open format and Arc imports it, or the reverse | As stated for the open format |
+
+### Arc exchange package
+
+The Arc exchange package is an open, documented container for exchange between Arc and other
+applications. It carries geometry, semantics, parameters, types, identifiers and relationships,
+together with units, coordinate reference and the source application's identifiers, so that
+re-exchanges update instead of duplicating. It is a contract owned by `arc-core`
+([contracts](contracts.md#arc-exchange-package)); its specification is in the
+[arc-core interchange architecture](https://github.com/ACKaraca/arc-core/blob/main/docs/architecture/interchange.md).
+Products read and write it through the `arc-io-*` layer and map it into their own domain models;
+connectors read and write it inside the other application.
+
+### Routes by source data
 
 | Source data | Route into Arc | Route out of Arc |
 |---|---|---|
-| Proprietary BIM authoring files (for example RVT) | IFC 4 or 4.3 export from the authoring tool, with an IDS file describing the required information; DWG for 2D views | IFC, DWG, PDF |
-| Proprietary mechanical CAD part and assembly files | STEP AP242 with product structure and, where available, semantic tolerancing | STEP AP242, PDF drawings |
-| Proprietary animation interchange (for example FBX) | OpenUSD or glTF | OpenUSD, glTF |
-| Proprietary scene files of content-creation tools | OpenUSD with MaterialX materials | OpenUSD |
-| Proprietary review and federation files | The underlying model files (IFC, DWG, STEP) plus BCF for issues | BCF, IFC, PDF reports |
+| Proprietary BIM authoring files (for example RVT) and their loadable components | Connector; IFC 4 or 4.3 export with an IDS file describing the required information; DWG for 2D views | Connector; IFC, DWG, PDF |
+| Proprietary mechanical CAD part and assembly files | Connector, with feature trees where the host API exposes them; STEP AP242 with product structure and, where available, semantic tolerancing | Connector; STEP AP242, PDF drawings |
+| Proprietary animation interchange (for example FBX) | Open reader; OpenUSD or glTF | OpenUSD, glTF |
+| Proprietary scene files of content-creation tools | Connector; OpenUSD with MaterialX materials | Connector; OpenUSD |
+| Freeform surface models (3DM) and DGN V7 drawings | Open reader | Open formats |
+| Proprietary review and federation files | The underlying model files (IFC, DWG, STEP) plus BCF for issues; export from authoring applications through connectors | BCF, IFC, PDF reports; switch-back to the authoring application through its connector |
 | Proprietary point-cloud project formats | E57 or LAS/LAZ | E57, LAS/LAZ |
-| Proprietary civil project files | LandXML and IFC 4.3, plus DWG for drawing content | LandXML, IFC 4.3, DWG |
+| Proprietary civil project files | Connector for design objects; LandXML and IFC 4.3, plus DWG for drawing content | Connector; LandXML, IFC 4.3, DWG |
 
-The receiving product documents which exporter settings preserve the most information; those notes
-are written from the open format's specification and observed results, never from vendor
-documentation text.
+The receiving product documents which exporter settings and connector options preserve the most
+information; those notes are written from the open format's specification, the host's public API
+reference and observed results, never from vendor documentation text.
 
 ## Validation and corpora
 

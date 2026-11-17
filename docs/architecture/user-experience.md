@@ -1,8 +1,8 @@
 # User experience standards
 
-The interaction standards shared by every Arc desktop application. They are implemented once in
-`arc-ui` and `arc-app` so that a user who knows one product can work in another. Products add
-domain tools; they do not change these conventions.
+The interaction standards shared by every Arc desktop application and by the browser and mobile
+builds of a product. They are implemented once in `arc-ui` and `arc-app` so that a user who knows
+one product can work in another. Products add domain tools; they do not change these conventions.
 
 ## Workspace layout
 
@@ -93,6 +93,26 @@ Shortcuts are user-configurable, conflicts are reported, and the shortcut map is
   literal colors.
 - Viewport background and drafting colors are configurable separately from UI themes.
 - Information is never conveyed by color alone; states also use shape, text or pattern.
+
+## Touch and small screens
+
+Browser, tablet and phone builds of a product ([ADR-0018](../adr/0018-web-and-mobile-targets.md))
+follow the conventions above, adapted once in `arc-ui`:
+
+- Touch gestures: one finger selects and drags, two fingers pan, pinch zooms and twist orbits;
+  a long press opens the context menu. Every gesture has an on-screen control or command
+  equivalent.
+- Touch targets are at least 44 by 44 device-independent pixels; snap markers and handles grow under
+  touch input.
+- Pen input is distinguished from touch: the pen draws and marks up, the finger navigates, and
+  pressure is available to tools that use it.
+- On small screens the docking workspace collapses to one viewport with panels as sheets that slide
+  in from an edge; the command palette and the tool options remain one tap away.
+- Precision entry uses the same expression fields with an on-screen numeric keypad that includes
+  units and operators; coordinate entry is never gesture-only.
+- A connected keyboard and pointer restore the desktop conventions, including the command line.
+- Offline state, pending synchronization with Arc Hub and storage limits are shown in the status
+  area.
 
 ## Accessibility baseline
 

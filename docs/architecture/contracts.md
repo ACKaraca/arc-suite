@@ -3,7 +3,8 @@
 The contracts through which Arc products, tools and servers cooperate without compile-time
 dependencies on each other. Three contracts connect products: the Arc document package, the Arc
 Scene contract and the Hub API. A fourth, the Arc Automation Protocol, connects every application to
-scripts, pipelines and assistants.
+scripts, pipelines and assistants. A fifth, the Arc exchange package, connects Arc to other
+applications through connectors.
 
 ## Summary
 
@@ -13,6 +14,7 @@ scripts, pipelines and assistants.
 | Arc Scene | Photoreal rendering of any product's model | `arc-core` | `arc-scene` | Files on disk; streamed updates over local IPC |
 | Hub API | Collaboration and data management | `arc-hub` (server), `arc-core` (types and client) | `arc-hub-api` | HTTPS (REST, JSON) and WebSocket |
 | Arc Automation Protocol | Programmatic control of an application | `arc-core` | `arc-command` | JSON-RPC 2.0 over stdio or a local socket |
+| Arc exchange package | Two-way exchange with other applications | `arc-core` | An `arc-io-*` crate | Files on disk, written and read by connectors and products |
 
 The specification of each contract lives with its owner and is versioned with it. The owner
 repository's maintainers are responsible for the specification, a conformance test suite, and
@@ -148,3 +150,26 @@ command is deprecated for one suite release first.
 **Specification.** In `arc-core`, next to `arc-command`, with a conformance suite that every product
 CLI passes. Security boundaries for automated access are in
 [automation and assistance](automation-and-assistance.md#security-boundaries).
+
+## Arc exchange package
+
+**Purpose.** An open, documented container through which connectors running inside other
+applications and Arc products exchange data in both directions
+([ADR-0017](../adr/0017-exchange-connectors-and-licensed-bridges.md)).
+
+**Content.** Objects with their geometry, semantics, parameters, types and relationships; the
+identifiers of the source application next to stable Arc identifiers, so that a repeated exchange
+updates instead of duplicating; units, axis convention and coordinate reference; the name and version
+of the writing application and connector; and the loss report of the exchange that wrote it.
+
+**Producers and consumers.** Connectors in the `arc-connectors` repository write and read it inside
+the other application. Arc products read and write it through the `arc-io-*` layer and map it to and
+from their domain models like any other format; an import keeps the original package and produces a
+loss report ([interoperability](interoperability.md#arc-exchange-package)).
+
+**Versioning.** The general compatibility rules above apply. A connector declares the package
+versions it writes and reads; a product refuses a higher major version without modifying the file.
+
+**Specification.** In `arc-core`, in its
+[interchange architecture](https://github.com/ACKaraca/arc-core/blob/main/docs/architecture/interchange.md),
+with a conformance suite that every connector and every product reader runs.
