@@ -37,6 +37,12 @@ in `arc-suite`; change it there first.
     changing a file format or public protocol, adding a new repository or remote, spending money,
     handling secrets, or any destructive git operation. Otherwise keep working.
 13. **Keep secrets and personal data out** of repositories, logs and requests.
+14. **Commit directly to `main` for now.** Until the project has a second maintainer and this
+    repository has reached its MVP release (for `arc-suite` and `arc-core`: the first product MVP),
+    work on `main`: no feature branches and no pull requests. Wherever these rules or the documents
+    say "pull request", read "commit". Run the checks before every push and name the issue in the
+    commit message. This rule is temporary and is deleted from a repository when that point is
+    reached.
 
 ## Rationale
 
@@ -55,6 +61,7 @@ in `arc-suite`; change it there first.
 | 11. Report only what ran | A reviewer must know which claims were checked. "Tests pass" when they did not run is worse than "not run". |
 | 12. Ask a human before | These actions are irreversible, legally significant, cost money or affect users outside the change. They need a decision by an accountable person. Everything else should not wait for one. |
 | 13. Keep secrets and personal data out | Repositories, logs and requests to external services are public or long lived; a leaked secret or personal datum cannot be recalled. |
+| 14. Commit directly to `main` for now | With one maintainer and no released product, a pull request has no second reviewer and only adds steps. Issues, checks before every push and Conventional Commits keep the history traceable. The rule is removed per repository at its MVP release or when a second maintainer joins, and the branch and review rules in the [contribution guide](../../CONTRIBUTING.md) apply from then on. |
 
 ## Changing the rules
 
@@ -67,7 +74,7 @@ in `arc-suite`; change it there first.
 
 ## Synchronizing every repository
 
-- Each repository's `AGENTS.md` contains the block from `## Suite rules` to the end of rule 13, byte
+- Each repository's `AGENTS.md` contains the block from `## Suite rules` to the end of the last rule, byte
   for byte, followed by the repository's own sections.
 - After a change, a synchronization pull request is opened in every Arc repository, replacing only
   the block. It is labeled `type: chore` and links the RFC. One synchronization pull request per

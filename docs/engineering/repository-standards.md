@@ -2,6 +2,11 @@
 
 How every Arc repository is laid out, named, protected, versioned and organized.
 
+> **Current working mode.** Until the project has a second maintainer and this repository has
+> reached its MVP release, changes are committed directly to `main` (suite rule 14): no feature
+> branches and no pull requests. Where this document says "pull request", read "commit". The
+> branch, review and merge rules below apply again when rule 14 is removed.
+
 ## Repository kinds and names
 
 | Kind | Name pattern | Examples |
