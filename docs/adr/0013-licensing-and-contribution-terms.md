@@ -20,7 +20,7 @@ freely forkable.
 - Developer Certificate of Origin sign-off on every commit. No contributor license agreement, no
   copyright assignment; contributions are licensed inbound under the same license as outbound.
 - Dependency licenses are restricted to an SPDX allowlist enforced by `cargo deny`: MIT, Apache-2.0,
-  BSD-2-Clause, BSD-3-Clause, ISC, Zlib, BSL-1.0, Unicode-3.0, CC0-1.0, and MPL-2.0 for unmodified
+  BSD-2-Clause, BSD-3-Clause, ISC, Zlib, BSL-1.0, Unicode-3.0, CC0-1.0, 0BSD, and MPL-2.0 for unmodified
   crates. LGPL is permitted only for dynamically linked native libraries named in an ADR.
 - Names and logos are covered by a separate [trademark policy](../../TRADEMARKS.md) and are not
   licensed with the code.

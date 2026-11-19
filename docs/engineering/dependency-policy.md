@@ -21,6 +21,7 @@ talks to through files, pipes or sockets.
 | `BSL-1.0` | Yes | Yes | Notice kept in source distributions |
 | `Unicode-3.0` | Yes | Yes | Notice reproduced |
 | `CC0-1.0` | Yes | Yes | None |
+| `0BSD` | Yes | Yes | None |
 | `MPL-2.0` | Yes, unmodified crates only | Yes | Used unmodified; if a patch is unavoidable, the patched files stay MPL-2.0, are published in a public fork and are recorded in the patch ledger |
 | `LGPL-2.1`, `LGPL-3.0` (including variants with linking exceptions) | Only native libraries named in an ADR, dynamically linked, replaceable by the user | Yes | Library shipped as a separate shared library with its license and source offer; never statically linked |
 | `GPL-2.0`, `GPL-3.0` | No | Only as separate programs that are never required for a core workflow | See [separate-process tools](#tools-that-may-run-only-as-separate-processes) |
