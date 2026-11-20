@@ -112,6 +112,9 @@ Arc's own commands ([ADR-0014](../adr/0014-assistance-is-optional-and-provider-n
 - **Outside the repositories.** Hosted assistant services are not part of the open-source
   repositories.
 
+The levels of assistance, the tool surface, grounding, the validation loop, provenance, data
+handling, budgets, evaluation and safety rules are specified in [assistance](assistance.md).
+
 ## Security boundaries
 
 Automated access is treated as a threat surface from the first release.

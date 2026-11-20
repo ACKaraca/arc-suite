@@ -18,6 +18,9 @@ flowchart LR
 Phases describe where the suite's emphasis lies. Work for a later phase may start earlier when its
 dependencies are met; a phase is complete only when its exit criteria are met.
 
+Optional assistance follows its own [assistance track](#assistance-track) across the phases. Its
+checks never gate a phase exit, because no product feature depends on assistance.
+
 ## Phase 0: Foundation
 
 **Goal.** A foundation that every product can build on, proven by a reference shell application.
@@ -199,3 +202,20 @@ validation suite the wrapped engine passes.
   and the markups appear in DraftBuilder on a workstation after synchronization.
 - An engineer captures a schematic in SolidBuilder, lays out and routes the board, passes design-rule
   checking and writes manufacturing outputs.
+
+## Assistance track
+
+Assistance is introduced level by level as the surfaces it stands on exist
+([assistance](architecture/assistance.md),
+[ADR-0019](adr/0019-assistance-levels-grounding-and-deterministic-checking.md)). Each product places
+its assistance capabilities in its own roadmap, after its manual workflows for the same task are in
+place. The checks below are acceptance checks of the track, not phase exit criteria.
+
+| Phase | Foundation and suite work | Product work | Acceptance check |
+|---|---|---|---|
+| 0 | RFC on [ADR-0019](adr/0019-assistance-levels-grounding-and-deterministic-checking.md) and [ADR-0020](adr/0020-assistant-provenance-and-command-policy.md); task-suite format and replay mode specified | None | The command catalog of the reference shell lists every command with its side-effect class, from which a command policy can be derived |
+| 1 | Read-only Model Context Protocol endpoint, preview runs, query, selection and view-render methods in `arc-command`; replay-mode task runner in the headless CLI | DraftBuilder and Arc Review expose their audits and checks as read-only checker commands and keep A1 task suites | An external assistant client answers questions about a DraftBuilder drawing through the read-only endpoint, citing objects that select when opened, and the replayed task suite passes in continuous integration with no network access |
+| 2 | Assistant host and panel in `arc-app` for levels A1 to A3; provider adapters; send preview, redaction and the assistance log; attach mode with approval; origin and provenance records once ADR-0020 is accepted | DraftBuilder A1 to A3; Arc Review A1; ArchBuilder checkers and task suites | A drafter asks for door dimensions on a sheet, reviews the proposal with checker findings, applies part of it as one undo step, and history shows the transaction with its assistant origin |
+| 3 | A4 runs through the headless CLI and Hub jobs with budgets; hand-off notes in exchange packages and Hub issues | ArchBuilder A1 to A3; Arc Review clash grouping and issue drafting; Arc Hub permission-aware questions; SolidBuilder and CivilBuilder checkers and task suites | A coordinator asks Arc Review to group the clashes of a run, accepts the grouping, and the issues created in Arc Hub carry provenance marks until a person reviews them |
+| 4 | Hand-off notes resolve objects across exchange packages; image input for checkers that compare views | SolidBuilder and CivilBuilder A1 to A3; MeshBuilder and RenderBuilder A1 and A2 | A civil engineer asks for alignment options under the project's design criteria and each option is shown with the criteria checker's findings before any is applied |
+| 5 | Proposals and provenance in change sets during multi-user editing; agent runs over several products through external clients | Readiness class R2 capabilities across products; A4 runs | The phase 5 exit criterion on a multi-step assisted task, and an A4 run over a set of documents whose result is merged only after review |

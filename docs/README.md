@@ -20,6 +20,7 @@ The suite documents, one line each. Product-specific documentation lives in each
 | [architecture/interoperability.md](architecture/interoperability.md) | Suite format matrix, interoperability policy, exchange routes, validation and corpora |
 | [architecture/collaboration.md](architecture/collaboration.md) | Offline-first collaboration in two stages, branching and merging, identity and permissions |
 | [architecture/automation-and-assistance.md](architecture/automation-and-assistance.md) | Command model, automation protocol, scripting, node graphs, plug-ins, optional assistance, security boundaries |
+| [architecture/assistance.md](architecture/assistance.md) | Assistance levels, tool surface, grounding, validation loop, human control, providers, data handling, budgets, evaluation, safety, languages |
 | [architecture/user-experience.md](architecture/user-experience.md) | Interaction standards shared by every application |
 
 ## Engineering standards

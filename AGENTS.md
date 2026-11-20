@@ -17,9 +17,9 @@ README.md  CONTRIBUTING.md  GOVERNANCE.md  CODE_OF_CONDUCT.md  TRADEMARKS.md  SE
 AGENTS.md  CLAUDE.md (imports this file)  LICENSE  NOTICE
 docs/
   vision.md  products.md  roadmap.md  glossary.md
-  architecture/   overview, contracts, interoperability, collaboration, automation, user experience
+  architecture/   overview, contracts, interoperability, collaboration, automation, assistance, user experience
   engineering/    agent rules and the suite engineering standards
-  adr/            suite ADRs 0001-0018, index and template
+  adr/            suite ADRs 0001-0020, index and template
   rfcs/           RFC process, template, accepted RFCs
 .github/workflows/  reusable CI workflows for all repositories (target; added with phase 0)
 ```
