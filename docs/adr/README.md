@@ -26,8 +26,9 @@ than restating these.
 | [0016](0016-localization-and-accessibility.md) | Localization and accessibility | Accepted |
 | [0017](0017-exchange-connectors-and-licensed-bridges.md) | Exchange connectors and licensed bridges | Accepted; amends 0009 |
 | [0018](0018-web-and-mobile-targets.md) | Web and mobile targets from the same Rust code | Accepted; clarifies 0002 |
-| [0019](0019-assistance-levels-grounding-and-deterministic-checking.md) | Assistance levels, grounding and deterministic checking | Proposed; extends 0014 |
-| [0020](0020-assistant-provenance-and-command-policy.md) | Assistant provenance and command policy | Proposed; needs an RFC |
+| [0019](0019-assistance-levels-grounding-and-deterministic-checking.md) | Assistance levels, grounding and deterministic checking | Proposed (approved in principle); extends 0014; needs an RFC |
+| [0020](0020-assistant-provenance-and-command-policy.md) | Assistant provenance and command policy | Proposed (approved in principle); needs an RFC |
+| [0021](0021-name-comparison.md) | Name comparison across documents | Proposed; needs an RFC |
 
 ## Rules
 

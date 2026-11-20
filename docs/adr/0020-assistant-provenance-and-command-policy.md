@@ -10,6 +10,9 @@ and state whether an assistant may run each command.
 - **Relationship:** Implements the provenance and command-policy rules of
   [ADR-0019](0019-assistance-levels-grounding-and-deterministic-checking.md). Changes a contract
   and a file format, so it needs an accepted RFC before it is accepted.
+- **Approval:** Approved in principle by the maintainer on 2026-11-20. Nothing in the protocol or the
+  package format has changed yet; the changes follow the accepted RFC, with the schema versions and
+  fixtures it names.
 
 ## Context
 

@@ -8,6 +8,8 @@ capability only after it passes a task suite.
 - **Scope:** Suite
 - **Relationship:** Extends [ADR-0014](0014-assistance-is-optional-and-provider-neutral.md); changes
   none of its decisions.
+- **Approval:** Approved in principle by the maintainer on 2026-11-20. It affects every repository, so
+  it becomes Accepted when the [RFC](../rfcs/README.md) on it is accepted.
 
 ## Context
 
