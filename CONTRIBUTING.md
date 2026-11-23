@@ -72,9 +72,10 @@ cargo xtask layers
 ## Branches and pull requests
 
 > **Current working mode.** Until the project has a second maintainer and this repository has
-> reached its MVP release, changes are committed directly to `main` (suite rule 14): no feature
-> branches and no pull requests. Where this document says "pull request", read "commit". The
-> branch, review and merge rules below apply again when rule 14 is removed.
+> reached its MVP release (suite rule 14), the maintainer commits directly to `main` without
+> branches or pull requests; for that work, read "commit" where this document says "pull request".
+> Other contributors follow the branch and pull request rules below, and the maintainer reviews
+> and merges their pull requests.
 
 - `main` is protected. All changes arrive by pull request.
 - Branch names: `<type>/<issue-number>-<short-slug>`, for example `fix/412-dxf-hatch-bounds`.
