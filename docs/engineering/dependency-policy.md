@@ -35,6 +35,24 @@ chosen license is recorded by `cargo deny`.
 LGPL libraries currently named: Open CASCADE, behind the B-rep FFI crate
 ([ADR-0003](../adr/0003-geometry-owned-api-two-tiers.md)).
 
+## Data and specification assets
+
+Test corpora, samples and published standard schemas are data, not code, and are recorded as assets.
+They are not in-process dependencies of the allowlist above, but only the following licenses are
+accepted for them:
+
+| SPDX identifier | Used for | Conditions |
+|---|---|---|
+| `CC-BY-4.0` | Test corpora and samples | Attribution in the corpus notice |
+| `CC-BY-ND-4.0` | Published standard schemas and definitions | Distributed unmodified, or as generated lookup tables that change only the format (section 2(a)(4) of the license); attribution, license notice and source kept; the source text is never modified |
+
+Releases published under non-commercial terms (for example CC BY-NC-ND) are not used, as the
+allowlist excludes non-commercial licenses. Where only such a release exists for a version, its
+data is not stored in a repository.
+
+Every such asset is recorded in the repository's `THIRD_PARTY_NOTICES.md` with its source URL,
+commit and hash.
+
 ## Adding a dependency
 
 1. **Check need.** Prefer the standard library, an existing dependency or a small amount of Arc code.
